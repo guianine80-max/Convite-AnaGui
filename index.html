@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;500;600;700;800&family=Caveat+Brush&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&family=Quicksand:wght@600;700&family=Cinzel:wght@800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS via CDN (zero dependência de compilação) -->
+  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -220,6 +220,11 @@
     <div id="ytPlayerFrame"></div>
   </div>
 
+  <!-- Disco de Vinil Flutuante (Fixo no canto inferior direito) -->
+  <div id="vinylRecord" class="vinyl-record fixed bottom-5 right-5 sm:bottom-8 sm:right-8 w-16 h-16 sm:w-20 sm:h-20 bg-white/90 backdrop-blur-md p-1.5 rounded-full shadow-2xl border-2 border-amber-300/80 cursor-pointer z-50 transition-transform hover:scale-110 active:scale-95 flex items-center justify-center hidden" title="Clique para tocar/pausar a música">
+    <img src="images/nwa5z3Otwl1elXBIZBdWgL89Z0.png" alt="Disco Vinil" class="w-full h-full object-contain" />
+  </div>
+
   <!-- ========================================================= -->
   <!-- TELA 1: O ENVELOPE (PRIMEIRA PÁGINA)                      -->
   <!-- ========================================================= -->
@@ -279,7 +284,7 @@
   <!-- ========================================================= -->
   <div id="invitationView" class="hidden">
 
-    <!-- SEÇÃO 1: CAPA, SOL, VINIL E DETALHES DO EVENTO -->
+    <!-- SEÇÃO 1: CAPA, SOL E DETALHES DO EVENTO -->
     <section id="capaSection" class="responsive-artboard-wrapper capa-wrapper">
       <div class="absolute inset-0 opacity-30 pointer-events-none z-0">
         <img src="images/XJyvoko8kRYyLECz6hTtJWdmCSY.png" alt="" class="w-full h-full object-cover object-center" />
@@ -309,11 +314,6 @@
           <div class="absolute top-[80px] left-[calc(50%-147px)] w-[294px] h-[142px] pointer-events-none z-30">
             <img src="images/ZgQ5D55fguFx5bsvk0SmnfLr4.png" alt="" class="w-full h-full object-contain" />
           </div>
-        </div>
-
-        <!-- Disco de Vinil Interativo -->
-        <div id="vinylRecord" class="vinyl-record absolute top-[136px] left-[40px] w-[109px] h-[109px] cursor-pointer z-30 transition-transform hover:scale-105 active:scale-95" title="Clique para tocar/pausar a música">
-          <img src="images/nwa5z3Otwl1elXBIZBdWgL89Z0.png" alt="Disco Vinil" class="w-full h-full object-contain drop-shadow-md" />
         </div>
 
         <div class="absolute top-[370px] left-[calc(50%-180px)] w-[360px] text-center z-20">
@@ -553,6 +553,7 @@
     const invitationView = document.getElementById('invitationView');
     const envelopeCard = document.getElementById('envelopeCard');
     const btnVoltarEnvelope = document.getElementById('btnVoltarEnvelope');
+    const vinylRecord = document.getElementById('vinylRecord');
 
     function openEnvelope() {
       envelopeView.classList.add('opacity-0', 'scale-95');
@@ -561,6 +562,7 @@
       setTimeout(() => {
         envelopeView.classList.add('hidden');
         invitationView.classList.remove('hidden');
+        vinylRecord.classList.remove('hidden'); // Exibe o disco flutuante ao abrir o convite
         window.scrollTo({ top: 0, behavior: 'smooth' });
         updateResponsiveScale();
       }, 500);
@@ -568,6 +570,7 @@
 
     function returnToEnvelope() {
       invitationView.classList.add('hidden');
+      vinylRecord.classList.add('hidden'); // Oculta o disco flutuante ao retornar
       envelopeView.classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => {
@@ -607,7 +610,6 @@
 
     // Controle de Áudio (MP3 + YouTube + Disco de Vinil)
     const bgMusic = document.getElementById('bgMusic');
-    const vinylRecord = document.getElementById('vinylRecord');
     let ytPlayer = null;
     let isYouTubeMode = false;
     let isPlaying = false;
